@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PlayerDTO {
 
-
+//тест
     private Long id;
     private String nickname;
     private String description;
