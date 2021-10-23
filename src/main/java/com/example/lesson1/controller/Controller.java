@@ -18,7 +18,6 @@ public class Controller {
 
     private final PlayerService service;
 
-
     @GetMapping("/player/{id}")
     public PlayerEntity loadPlayer(@PathVariable("id") Long id) {
         return service.getPlayerById(id);
