@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -37,25 +38,40 @@ public class PlayerService {
 
     public ResponseEntity<ResponseDTO> findPlayersByStatus(PlayerStatus status) {
         try {
-            List<PlayerDTO> collect = playerRepository.findAll().stream()
-                    .filter(playerEntity -> status.isVal() != playerEntity.isTerminated())
+            var collect = playerRepository
+                    .findAllPlayersFilterByStatus(status.isVal())
+                    .stream()
                     .map(this::map)
                     .collect(Collectors.toList());
             //todo сделать оптимальный запрос
             return ResponseEntity.ok(ResponseDTO.builder().result(collect).build());
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    //todo реализовать метод сохранения сущности
-    public void create() {
-
+    public void create(PlayerDTO playerDTO) {
+        playerRepository.save(
+                map(playerDTO)
+        );
     }
 
-    //todo реализовать метод обновления сущности
-    public PlayerDTO update() {
-        return null;
+    public PlayerDTO update(PlayerDTO playerDTO) {
+        log.info("update.in - searching player {}", playerDTO.getId());
+        var optionalPlayer = playerRepository.findById(playerDTO.getId());
+        if (optionalPlayer.isPresent()) {
+            log.info("update.get - player was found.");
+            var player = optionalPlayer.get();
+            player.setNickName(playerDTO.getNickname());
+            player.setProfileInfo(playerDTO.getDescription());
+            playerRepository.save(player);
+            log.info("player with id {} was updated", player.getId());
+            return playerDTO;
+        } else {
+            log.error("update.get - player was not found");
+            throw new EntityNotFoundException("Entity with given id not found!");
+        }
     }
 
 
@@ -64,6 +80,13 @@ public class PlayerService {
                 .nickname(playerEntity.getNickName())
                 .id(playerEntity.getId())
                 .description(playerEntity.getProfileInfo()).build();
+    }
+
+    public PlayerEntity map(PlayerDTO playerDTO) {
+        return PlayerEntity.builder()
+                .nickName(playerDTO.getNickname())
+                .id(playerDTO.getId())
+                .profileInfo(playerDTO.getDescription()).build();
     }
 
 }

@@ -8,11 +8,7 @@ import com.example.lesson1.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -21,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     private final PlayerService service;
+
 
     @GetMapping("/player/{id}")
     public PlayerEntity loadPlayer(@PathVariable("id") Long id) {
@@ -32,13 +29,14 @@ public class Controller {
         return service.findPlayersByStatus(status);
     }
 
-    //todo реализовать метод сохранения сущности
-    public void create() {
-
+    @PostMapping("/player")
+    public void create(@RequestBody PlayerDTO playerDTO) {
+        service.create(playerDTO);
     }
 
-    //todo реализовать метод обновления сущности
-    public PlayerDTO update() {
-        return null;
+    @PutMapping("/player")
+    public PlayerDTO update(@RequestBody PlayerDTO playerDTO) {
+        return service.update(playerDTO);
     }
+
 }
