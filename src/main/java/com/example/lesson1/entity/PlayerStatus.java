@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public enum PlayerStatus {
 
-    ACTIVE(true),
-    INACTIVE(false);
+    ACTIVE(false),
+    INACTIVE(true);
 
     private boolean val;
 }
