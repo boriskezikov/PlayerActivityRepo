@@ -1,6 +1,7 @@
 package com.example.lesson1.service;
 
 import com.example.lesson1.data.PlayerRepository;
+import com.example.lesson1.data.WeaponRepository;
 import com.example.lesson1.dto.PlayerDTO;
 import com.example.lesson1.dto.ResponseDTO;
 import com.example.lesson1.entity.PlayerEntity;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final WeaponRepository weaponRepository;
 
     public PlayerEntity getPlayerById(Long id) {
         log.info("getPlayerById.in - searching player {}", id);
@@ -41,23 +43,11 @@ public class PlayerService {
                     .filter(playerEntity -> status.isVal() != playerEntity.isTerminated())
                     .map(this::map)
                     .collect(Collectors.toList());
-            //todo сделать оптимальный запрос
             return ResponseEntity.ok(ResponseDTO.builder().result(collect).build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-    //todo реализовать метод сохранения сущности
-    public void create() {
-
-    }
-
-    //todo реализовать метод обновления сущности
-    public PlayerDTO update() {
-        return null;
-    }
-
 
     public PlayerDTO map(PlayerEntity playerEntity) {
         return PlayerDTO.builder()

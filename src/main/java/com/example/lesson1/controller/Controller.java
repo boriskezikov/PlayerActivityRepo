@@ -39,6 +39,7 @@ public class Controller {
 
     //todo реализовать метод обновления сущности
     public PlayerDTO update() {
+        new Object();
         return null;
     }
 }
