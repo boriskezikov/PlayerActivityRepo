@@ -5,6 +5,8 @@ import com.example.lesson1.dto.PlayerDTO;
 import com.example.lesson1.dto.ResponseDTO;
 import com.example.lesson1.entity.PlayerEntity;
 import com.example.lesson1.entity.PlayerStatus;
+import com.example.lesson1.entity.Weapon;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,9 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,6 +54,10 @@ public class PlayerService {
         }
     }
 
+    public Float countPercentPlayersWithSimilarNickName(String name) {
+        return playerRepository.countPercentPlayersWithSimilarNickName(name);
+    }
+
     public void create(PlayerDTO playerDTO) {
         playerRepository.save(
                 map(playerDTO)
@@ -62,10 +69,12 @@ public class PlayerService {
         var optionalPlayer = playerRepository.findById(playerDTO.getId());
         if (optionalPlayer.isPresent()) {
             log.info("update.get - player was found.");
+
             var player = optionalPlayer.get();
             player.setNickName(playerDTO.getNickname());
             player.setProfileInfo(playerDTO.getDescription());
             playerRepository.save(player);
+
             log.info("player with id {} was updated", player.getId());
             return playerDTO;
         } else {
@@ -89,4 +98,27 @@ public class PlayerService {
                 .profileInfo(playerDTO.getDescription()).build();
     }
 
+    public List<PlayerEntity> findPlayersThatCreatedBetweenDates(Date from, Date to) {
+        return playerRepository.findAllByCreatedAtBetween(from, to);
+    }
+
+//    @PostConstruct
+//    public void test() {
+//        PlayerEntity saved = playerRepository.save(
+//                PlayerEntity.builder()
+//                        .nickName("test")
+//                        .profileInfo("test")
+//                        .terminated(false)
+//                        .weapons(Collections.singletonList(
+//                                Weapon.builder()
+//                                        .damage(10)
+//                                        .range(199)
+//                                        .detailedName("test dt")
+//                                        .name("test weapon name")
+//                                        .broken(false).build()
+//                        ))
+//                        .build()
+//        );
+//        System.out.println(saved);
+//    }
 }
