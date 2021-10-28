@@ -5,6 +5,6 @@ spring:
     password: webwelle32
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 server:
   port: 42100

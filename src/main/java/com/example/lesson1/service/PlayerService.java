@@ -50,10 +50,8 @@ public class PlayerService {
 
     //todo реализовать метод сохранения сущности
 
-    public void create(PlayerDTO playerDTO) {
-        playerRepository.save(
-                map(playerDTO)
-        );
+    public void create(PlayerEntity playerEntity) {
+        playerRepository.save(playerEntity);
     }
 
     //todo реализовать метод обновления сущности
@@ -64,13 +62,6 @@ public class PlayerService {
                 .nickname(playerEntity.getNickName())
                 .id(playerEntity.getId())
                 .description(playerEntity.getProfileInfo()).build();
-    }
-
-    public PlayerEntity map(PlayerDTO playerDTO) {
-        return PlayerEntity.builder()
-                .nickName(playerDTO.getNickname())
-                .id(playerDTO.getId())
-                .profileInfo(playerDTO.getDescription()).build();
     }
 
 }

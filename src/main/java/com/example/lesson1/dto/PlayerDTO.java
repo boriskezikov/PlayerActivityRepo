@@ -14,9 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class PlayerDTO {
 
-
     private Long id;
     private String nickname;
     private String description;
-
 }

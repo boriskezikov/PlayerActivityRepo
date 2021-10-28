@@ -32,9 +32,10 @@ public class Controller {
     }
 
     @PostMapping("/player")
-    public void create(@RequestBody PlayerDTO playerDTO) {
-        service.create(playerDTO);
+    public void create(@RequestBody PlayerEntity playerEntity) {
+        service.create(playerEntity);
     }
+
 
     //todo реализовать метод обновления сущности
 
