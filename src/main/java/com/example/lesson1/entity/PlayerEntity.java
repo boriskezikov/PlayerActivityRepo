@@ -1,21 +1,20 @@
 package com.example.lesson1.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
+@Data
 public class PlayerEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "players_seq")
+    @SequenceGenerator(name = "players_seq", allocationSize = 1)
     private Long id;
 
     private String nickName;
@@ -23,5 +22,4 @@ public class PlayerEntity {
     private boolean terminated;
 
     private String profileInfo;
-
 }

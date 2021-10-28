@@ -41,7 +41,7 @@ public class PlayerService {
                     .filter(playerEntity -> status.isVal() != playerEntity.isTerminated())
                     .map(this::map)
                     .collect(Collectors.toList());
-            //todo сделать оптимальный запрос
+            //сделать оптимальный запрос
             return ResponseEntity.ok(ResponseDTO.builder().result(collect).build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -49,14 +49,14 @@ public class PlayerService {
     }
 
     //todo реализовать метод сохранения сущности
-    public void create() {
 
+    public void create(PlayerDTO playerDTO) {
+        playerRepository.save(
+                map(playerDTO)
+        );
     }
 
     //todo реализовать метод обновления сущности
-    public PlayerDTO update() {
-        return null;
-    }
 
 
     public PlayerDTO map(PlayerEntity playerEntity) {
@@ -64,6 +64,13 @@ public class PlayerService {
                 .nickname(playerEntity.getNickName())
                 .id(playerEntity.getId())
                 .description(playerEntity.getProfileInfo()).build();
+    }
+
+    public PlayerEntity map(PlayerDTO playerDTO) {
+        return PlayerEntity.builder()
+                .nickName(playerDTO.getNickname())
+                .id(playerDTO.getId())
+                .profileInfo(playerDTO.getDescription()).build();
     }
 
 }

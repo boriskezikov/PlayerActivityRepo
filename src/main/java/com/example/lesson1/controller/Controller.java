@@ -7,12 +7,11 @@ import com.example.lesson1.entity.PlayerStatus;
 import com.example.lesson1.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
 
 @Slf4j
 @RestController
@@ -32,13 +31,12 @@ public class Controller {
         return service.findPlayersByStatus(status);
     }
 
-    //todo реализовать метод сохранения сущности
-    public void create() {
-
+    @PostMapping("/player")
+    public void create(@RequestBody PlayerDTO playerDTO) {
+        service.create(playerDTO);
     }
 
     //todo реализовать метод обновления сущности
-    public PlayerDTO update() {
-        return null;
-    }
+
+
 }
