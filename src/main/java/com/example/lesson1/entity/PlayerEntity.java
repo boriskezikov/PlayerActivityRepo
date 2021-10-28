@@ -38,8 +38,8 @@ public class PlayerEntity {
 
     private String profileInfo;
 
-    @OneToMany()
-    @JoinColumn()
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "playerEntity")
+//    @JoinColumn(name = "player_id")
     private List<Weapon> weapons;
 
 }

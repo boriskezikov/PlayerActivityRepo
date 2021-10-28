@@ -5,7 +5,7 @@ spring:
     password: localPostgres
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 server:
   port: 42100
