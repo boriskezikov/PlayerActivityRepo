@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,4 +15,6 @@ public class PlayerDTO {
     private Long id;
     private String nickname;
     private String description;
+    private LocalDateTime accountCreated;
+    private LocalDateTime accountUpdated;
 }
